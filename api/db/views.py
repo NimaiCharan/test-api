@@ -1,14 +1,21 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
-from .models import Dummy
+from .models import Test
+from .serializers import TestSerializer
 
 # Create your views here.
 
 def index(request):
-    data =  Dummy.objects.all()
+    if request.method =='GET':
+        data =  Test.objects.all()
+        
+        #json_data = serializers.serialize('json', data)
+        serializer = TestSerializer(data, many=True)
+
+        return JsonResponse(serializer.data, safe=False)
     
-    json_data = serializers.serialize('json', data)
     
-    return HttpResponse(json_data, content_type='application/json')
+    #return HttpResponse(json_data, content_type='application/json')
     #return render(request, 'index.html',{'data':json_data})
+    
