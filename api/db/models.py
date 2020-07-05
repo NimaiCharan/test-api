@@ -13,3 +13,5 @@ class Test(models.Model):
         managed = False
         db_table = 'test'
 
+
+
